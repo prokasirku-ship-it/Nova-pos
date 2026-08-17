@@ -19,14 +19,14 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg-app); color: var(--text-main); height: 100vh; overflow: hidden; }
+    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
     .app-layout { display: flex; height: 100vh; }
 
     /* SIDEBAR */
     .sidebar {
       width: 240px; background: var(--surface); border-right: 1px solid var(--border);
-      display: flex; flex-direction: column; padding: 20px 15px; justify-content: space-between;
+      display: flex; flex-direction: column; padding: 20px 15px; justify-content: flex-start; flex-shrink: 0;
     }
     .brand { display: flex; align-items: center; gap: 12px; }
     .brand-logo {
@@ -67,7 +67,7 @@
     }
     .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+    .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
     .card-product {
       background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
       padding: 12px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column;
@@ -78,8 +78,8 @@
 
     /* CART PANEL */
     .cart-panel {
-      width: 360px; background: var(--surface); border-left: 1px solid var(--border);
-      display: flex; flex-direction: column; border-radius: 14px;
+      width: 340px; background: var(--surface); border: 1px solid var(--border);
+      display: flex; flex-direction: column; border-radius: 14px; flex-shrink: 0;
     }
     .cart-header { padding: 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
     .cart-list { flex: 1; padding: 18px; overflow-y: auto; }
@@ -102,7 +102,7 @@
       border: none; border-radius: 10px; font-weight: 800; cursor: pointer;
     }
 
-    /* GENERAL */
+    /* GENERAL COMPONENTS */
     .card-box { background: var(--surface); padding: 20px; border-radius: 14px; border: 1px solid var(--border); }
     .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
     .form-group input, .form-group select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
@@ -116,6 +116,29 @@
     .stat-card { background: var(--surface); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
     .stat-card h4 { color: var(--text-sub); font-size: 0.85rem; margin-bottom: 8px; }
     .stat-card p { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+
+    /* RESPONSIVE LAYOUT UNTUK HP */
+    @media (max-width: 768px) {
+      body { overflow-y: auto; }
+      .app-layout { flex-direction: column; height: auto; }
+      
+      .sidebar {
+        width: 100%; height: auto; border-right: none;
+        border-bottom: 1px solid var(--border); padding: 12px 15px;
+      }
+      .nav-list { flex-direction: row; margin-top: 12px; overflow-x: auto; padding-bottom: 5px; }
+      .nav-link { padding: 8px 14px; font-size: 0.82rem; white-space: nowrap; }
+
+      .content-viewport { padding: 12px; height: auto; overflow: visible; }
+      
+      .pos-container { flex-direction: column; height: auto; overflow: visible; }
+      .pos-main { overflow: visible; }
+      .grid-products { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+      .cart-panel { width: 100%; height: auto; margin-top: 15px; }
+      
+      .stat-cards { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
