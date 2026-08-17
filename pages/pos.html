@@ -1,0 +1,38 @@
+<div class="pos-container">
+  <div class="pos-main">
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Cari nama produk..." onkeyup="filterProducts()">
+    </div>
+
+    <div class="cat-wrapper">
+      <button class="cat-btn active" onclick="setCategory('all', this)">Semua Menu</button>
+      <button class="cat-btn" onclick="setCategory('makanan', this)">Makanan</button>
+      <button class="cat-btn" onclick="setCategory('minuman', this)">Minuman</button>
+      <button class="cat-btn" onclick="setCategory('snack', this)">Cemilan</button>
+    </div>
+
+    <div class="grid-products" id="posProductList"></div>
+  </div>
+
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h3><i class="fa-solid fa-cart-shopping"></i> Keranjang</h3>
+      <button style="background:none; border:none; color:var(--danger); cursor:pointer;" onclick="resetCart()">Reset</button>
+    </div>
+    <div class="cart-list" id="cartItems"></div>
+    <div class="cart-summary">
+      <div class="summary-item"><span>Subtotal</span><span id="txtSubtotal">Rp 0</span></div>
+      <div class="summary-item"><span>Pajak (10%)</span><span id="txtTax">Rp 0</span></div>
+      <div class="summary-item total"><span>Total Bayar</span><span id="txtTotal">Rp 0</span></div>
+
+      <div class="payment-methods">
+        <div class="pay-opt active" onclick="setPayment('Cash', this)">Tunai</div>
+        <div class="pay-opt" onclick="setPayment('QRIS', this)">QRIS</div>
+        <div class="pay-opt" onclick="setPayment('Debit', this)">Debit</div>
+      </div>
+
+      <button class="btn-checkout" onclick="processCheckout()"><i class="fa-solid fa-print"></i> Proses Transaksi</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<h2>Stok & Kelola Produk</h2>
+
+<div class="card-box" style="margin-top:15px;">
+  <h3>Tambah Produk Baru</h3>
+  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:15px;">
+    <div class="form-group">
+      <label>Nama Produk</label>
+      <input type="text" id="newProdName" placeholder="Contoh: Es Teh Manis">
+    </div>
+    <div class="form-group">
+      <label>Harga (Rp)</label>
+      <input type="number" id="newProdPrice" placeholder="5000">
+    </div>
+    <div class="form-group">
+      <label>Kategori</label>
+      <select id="newProdCat">
+        <option value="makanan">Makanan</option>
+        <option value="minuman">Minuman</option>
+        <option value="snack">Cemilan</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn-primary" onclick="addNewProduct()"><i class="fa-solid fa-plus"></i> Simpan Produk</button>
+</div>
+
+<div class="card-box" style="margin-top:20px;">
+  <h3>Daftar Produk Terdaftar</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nama Produk</th>
+        <th>Kategori</th>
+        <th>Harga</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="tableProductBody"></tbody>
+  </table>
+</div>
