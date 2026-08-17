@@ -151,8 +151,9 @@
     .list-box { background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
     .list-item {
       display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;
-      border-bottom: 1px solid #f8fafc; cursor: pointer;
+      border-bottom: 1px solid #f8fafc; cursor: pointer; transition: background 0.2s;
     }
+    .list-item:hover { background: #f1f5f9; }
     .list-item:last-child { border-bottom: none; }
     .list-left { display: flex; align-items: center; gap: 12px; }
     .list-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
@@ -291,16 +292,16 @@
           <div class="menu-icon bg-green"><i class="fa-solid fa-qrcode"></i></div>
           <span class="menu-label">Kasir Baru</span>
         </div>
-        <div class="menu-item" onclick="switchView('lainnya')">
+        <div class="menu-item" onclick="openSettingModal('Pembelian Stok')">
           <span class="badge-lock"><i class="fa-solid fa-lock"></i> Bisnis</span>
           <div class="menu-icon bg-green"><i class="fa-solid fa-cart-shopping"></i></div>
           <span class="menu-label">Pembelian</span>
         </div>
-        <div class="menu-item" onclick="alert('Riwayat Transaksi Kosong')">
+        <div class="menu-item" onclick="openSettingModal('Riwayat Transaksi')">
           <div class="menu-icon bg-purple"><i class="fa-regular fa-clock"></i></div>
           <span class="menu-label">Riwayat</span>
         </div>
-        <div class="menu-item" onclick="switchView('lainnya')">
+        <div class="menu-item" onclick="openSettingModal('Laporan Keuangan')">
           <div class="menu-icon bg-yellow"><i class="fa-solid fa-chart-pie"></i></div>
           <span class="menu-label">Laporan</span>
         </div>
@@ -312,7 +313,7 @@
           <div class="menu-icon bg-green"><i class="fa-solid fa-boxes-stacked"></i></div>
           <span class="menu-label">Stok</span>
         </div>
-        <div class="menu-item" onclick="switchView('lainnya')">
+        <div class="menu-item" onclick="openSettingModal('Kas Masuk / Keluar')">
           <div class="menu-icon bg-pink"><i class="fa-solid fa-wallet"></i></div>
           <span class="menu-label">Kas Masuk/Keluar</span>
         </div>
@@ -386,7 +387,7 @@
   <div id="view-lainnya" class="app-view">
     <div class="settings-header">
       <div class="settings-title">Pengaturan</div>
-      <div class="settings-sub">Semua Cabang <i class="fa-solid fa-chevron-down"></i></div>
+      <div class="settings-sub" onclick="openSettingModal('Pilih Cabang Toko')">Semua Cabang <i class="fa-solid fa-chevron-down"></i></div>
     </div>
 
     <div class="settings-body">
@@ -400,7 +401,7 @@
             <div class="pro-alert-sub">Berakhir dalam 4 hari • 21 Agu 2026</div>
           </div>
         </div>
-        <button class="btn-renew" onclick="alert('Mengarahkan ke halaman pembayaran...')">
+        <button class="btn-renew" onclick="openSettingModal('Perpanjang Langganan Pro')">
           <i class="fa-solid fa-rotate"></i> Perpanjang Langganan
         </button>
       </div>
@@ -408,14 +409,14 @@
       <!-- SEARCH BAR -->
       <div class="settings-search">
         <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-        <input type="text" placeholder="Cari menu pengaturan...">
+        <input type="text" id="setting-search-input" placeholder="Cari menu pengaturan..." onkeyup="filterSettings()">
       </div>
 
       <!-- SEKSI: TOKO -->
       <div class="section-group">
         <div class="section-title">TOKO</div>
-        <div class="list-box">
-          <div class="list-item">
+        <div class="list-box" id="section-toko">
+          <div class="list-item" onclick="openSettingModal('Profil Toko')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-store"></i></div>
               <div>
@@ -425,7 +426,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Langganan')">
             <div class="list-left">
               <div class="list-icon bg-yellow"><i class="fa-solid fa-crown"></i></div>
               <div>
@@ -435,7 +436,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Ajak Teman')">
             <div class="list-left">
               <div class="list-icon bg-pink"><i class="fa-solid fa-gift"></i></div>
               <div>
@@ -445,7 +446,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Kelola Cabang')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-city"></i></div>
               <div>
@@ -455,7 +456,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Cabang Aktif')">
             <div class="list-left">
               <div class="list-icon bg-green"><i class="fa-solid fa-location-dot"></i></div>
               <div>
@@ -472,7 +473,7 @@
       <div class="section-group">
         <div class="section-title">TIM & AKSES</div>
         <div class="list-box">
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Karyawan')">
             <div class="list-left">
               <div class="list-icon bg-yellow"><i class="fa-solid fa-users-gear"></i></div>
               <div>
@@ -482,7 +483,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Absensi Karyawan')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-user-check"></i></div>
               <div>
@@ -492,7 +493,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Kelola Shift Kasir')">
             <div class="list-left">
               <div class="list-icon bg-purple"><i class="fa-solid fa-stopwatch"></i></div>
               <div>
@@ -502,7 +503,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Hak Akses Role')">
             <div class="list-left">
               <div class="list-icon bg-pink"><i class="fa-solid fa-shield-halved"></i></div>
               <div>
@@ -512,7 +513,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Log Aktivitas Pengguna')">
             <div class="list-left">
               <div class="list-icon bg-green"><i class="fa-solid fa-clipboard-list"></i></div>
               <div>
@@ -529,7 +530,7 @@
       <div class="section-group">
         <div class="section-title">PENJUALAN & PEMBAYARAN</div>
         <div class="list-box">
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Tipe Order')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-receipt"></i></div>
               <div>
@@ -539,7 +540,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Metode Pembayaran')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-wallet"></i></div>
               <div>
@@ -549,7 +550,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Payment Gateway')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-qrcode"></i></div>
               <div>
@@ -559,7 +560,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('BisaTopup (PPOB)')">
             <div class="list-left">
               <div class="list-icon bg-yellow"><i class="fa-solid fa-bolt"></i></div>
               <div>
@@ -569,7 +570,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Promo & Diskon')">
             <div class="list-left">
               <div class="list-icon bg-purple"><i class="fa-solid fa-tags"></i></div>
               <div>
@@ -579,7 +580,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Kelola Printer')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-print"></i></div>
               <div>
@@ -604,7 +605,7 @@
                 <div class="list-text-sub">Nonaktif</div>
               </div>
             </div>
-            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" onchange="toggleSetting('Simple Checkout', this.checked)"><span class="slider"></span></label>
           </div>
           <div class="list-item">
             <div class="list-left">
@@ -614,7 +615,7 @@
                 <div class="list-text-sub">Nonaktif</div>
               </div>
             </div>
-            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" onchange="toggleSetting('Buka Laci Otomatis', this.checked)"><span class="slider"></span></label>
           </div>
           <div class="list-item">
             <div class="list-left">
@@ -624,7 +625,7 @@
                 <div class="list-text-sub">Aktif — untuk satuan m³, kg, ½ pickup</div>
               </div>
             </div>
-            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" checked onchange="toggleSetting('Izinkan Jumlah Pecahan', this.checked)"><span class="slider"></span></label>
           </div>
           <div class="list-item">
             <div class="list-left">
@@ -634,7 +635,7 @@
                 <div class="list-text-sub">Bunyi koin saat transaksi berhasil</div>
               </div>
             </div>
-            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" checked onchange="toggleSetting('Suara Checkout Berhasil', this.checked)"><span class="slider"></span></label>
           </div>
         </div>
       </div>
@@ -643,7 +644,7 @@
       <div class="section-group">
         <div class="section-title">PRODUK & STOK</div>
         <div class="list-box">
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Produk Bundle')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-boxes-packing"></i></div>
               <div>
@@ -653,7 +654,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Resep Produk & HPP')">
             <div class="list-left">
               <div class="list-icon bg-yellow"><i class="fa-solid fa-book-open"></i></div>
               <div>
@@ -663,7 +664,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Stok Produk Real-time')">
             <div class="list-left">
               <div class="list-icon bg-green"><i class="fa-solid fa-cubes"></i></div>
               <div>
@@ -673,7 +674,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Transfer Stok Antar Cabang')">
             <div class="list-left">
               <div class="list-icon bg-blue"><i class="fa-solid fa-truck-ramp-box"></i></div>
               <div>
@@ -690,7 +691,7 @@
       <div class="section-group">
         <div class="section-title">BANTUAN</div>
         <div class="list-box">
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Tanya Bantuan (AI)')">
             <div class="list-left">
               <div class="list-icon bg-green"><i class="fa-solid fa-comments"></i></div>
               <div>
@@ -700,7 +701,7 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Panduan Penggunaan')">
             <div class="list-left">
               <div class="list-icon bg-purple"><i class="fa-solid fa-book"></i></div>
               <div>
@@ -710,12 +711,12 @@
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="list-item">
+          <div class="list-item" onclick="openSettingModal('Bantuan Prioritas WhatsApp')">
             <div class="list-left">
               <div class="list-icon bg-green"><i class="fa-brands fa-whatsapp"></i></div>
               <div>
                 <div class="list-text-main">Bantuan Prioritas</div>
-                <div class="list-text-sub">Respons <24 jam hari kerja via WhatsApp</div>
+                <div class="list-text-sub">Respons &lt;24 jam hari kerja via WhatsApp</div>
               </div>
             </div>
             <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
@@ -726,15 +727,15 @@
       <!-- FOOTER AREA -->
       <div class="app-info">
         <div class="app-version">Bisakasir v1.121.0</div>
-        <a href="#" class="app-link">Tentang Aplikasi</a>
+        <a href="#" class="app-link" onclick="openSettingModal('Tentang Aplikasi Bisakasir')">Tentang Aplikasi</a>
       </div>
 
-      <button class="btn-logout" onclick="alert('Keluar dari aplikasi')">
+      <button class="btn-logout" onclick="alert('Anda telah keluar dari aplikasi.')">
         <i class="fa-solid fa-right-from-bracket"></i> Keluar
       </button>
 
       <div class="sync-banner">
-        <i class="fa-solid fa-spinner fa-spin"></i> Menyinkronkan 0 data...
+        <i class="fa-solid fa-spinner fa-spin"></i> Sinkronisasi data sukses.
       </div>
 
     </div>
@@ -779,6 +780,28 @@
       const targetNav = document.getElementById('nav-' + viewName);
       if (targetNav) targetNav.classList.add('active');
       window.scrollTo(0,0);
+    }
+
+    function openSettingModal(menuName) {
+      alert('Membuka halaman pengaturan / manajemen: ' + menuName);
+    }
+
+    function toggleSetting(settingName, status) {
+      const statusText = status ? 'Aktif' : 'Nonaktif';
+      console.log('Pengaturan ' + settingName + ' diubah menjadi: ' + statusText);
+    }
+
+    function filterSettings() {
+      let input = document.getElementById('setting-search-input').value.toLowerCase();
+      let items = document.querySelectorAll('.list-item');
+      items.forEach(item => {
+        let text = item.innerText.toLowerCase();
+        if (text.includes(input)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
     }
 
     function addToCart(name, price) {
