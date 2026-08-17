@@ -8,192 +8,268 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #00b96b;
-      --primary-hover: #009656;
+      --primary-green: #00a676;
+      --header-bg: #00875a;
       --bg-app: #f4f6f9;
       --surface: #ffffff;
-      --border: #e2e8f0;
+      --border: #f1f5f9;
       --text-main: #0f172a;
       --text-sub: #64748b;
-      --danger: #ef4444;
+      --green-badge: #10b981;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; padding-bottom: 90px; }
 
-    .app-layout { display: flex; height: 100vh; }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: 240px; background: var(--surface); border-right: 1px solid var(--border);
-      display: flex; flex-direction: column; padding: 20px 15px; justify-content: flex-start; flex-shrink: 0;
+    /* HEADER AREA */
+    .header-bg {
+      background: linear-gradient(135deg, #007a52 0%, #00a676 100%);
+      color: white;
+      padding: 20px 20px 45px 20px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-logo {
-      width: 42px; height: 42px; background: var(--primary); color: white;
+    .top-bar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .user-profile { display: flex; flex-direction: column; gap: 4px; }
+    .name-row { display: flex; align-items: center; gap: 8px; }
+    .user-name { font-size: 1.15rem; font-weight: 800; }
+    .badge-pro {
+      background: #fef3c7; color: #b45309; font-size: 0.7rem; font-weight: 800;
+      padding: 2px 8px; border-radius: 12px; display: flex; align-items: center; gap: 4px;
+    }
+    .sub-info { font-size: 0.8rem; opacity: 0.9; display: flex; align-items: center; gap: 6px; }
+    .badge-online {
+      background: rgba(255,255,255,0.2); color: white; font-size: 0.65rem;
+      padding: 2px 6px; border-radius: 10px; font-weight: 600;
+    }
+
+    .notif-btn {
+      width: 42px; height: 42px; background: rgba(255, 255, 255, 0.18);
       border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; font-weight: 800;
+      position: relative; font-size: 1.1rem; cursor: pointer;
     }
-    .brand-title { font-size: 1.15rem; font-weight: 800; }
-    .brand-title span { color: var(--primary); }
-
-    .nav-list { display: flex; flex-direction: column; gap: 6px; margin-top: 30px; }
-    .nav-link {
-      display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-      color: var(--text-sub); text-decoration: none; font-weight: 600; font-size: 0.9rem;
-      border-radius: 10px; transition: all 0.2s; cursor: pointer;
-    }
-    .nav-link:hover, .nav-link.active { background: #e6f8f0; color: var(--primary); }
-
-    /* CONTENT VIEWPORT */
-    .content-viewport { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
-    .loader { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-sub); font-weight: 600; }
-
-    /* POS LAYOUT */
-    .pos-container { display: flex; flex: 1; gap: 20px; height: 100%; overflow: hidden; }
-    .pos-main { flex: 1; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
-
-    .search-bar {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; gap: 12px;
-    }
-    .search-bar input { border: none; outline: none; width: 100%; font-size: 0.95rem; }
-
-    /* KATEGORI SCROLL */
-    .cat-wrapper {
-      display: flex; gap: 10px; overflow-x: auto;
-      padding: 4px 15px 8px 4px; margin-right: -15px;
-      scrollbar-width: none; -webkit-overflow-scrolling: touch;
-    }
-    .cat-wrapper::-webkit-scrollbar { display: none; }
-
-    .cat-btn {
-      border: 1px solid var(--border); background: var(--surface);
-      padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;
-      color: var(--text-sub); cursor: pointer; white-space: nowrap; flex-shrink: 0;
-    }
-    .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-    .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-    .card-product {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      padding: 12px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column;
-    }
-    .card-product:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
-    .product-name { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
-    .product-price { color: var(--primary); font-weight: 800; font-size: 0.95rem; margin-top: auto; }
-
-    /* CART PANEL */
-    .cart-panel {
-      width: 340px; background: var(--surface); border: 1px solid var(--border);
-      display: flex; flex-direction: column; border-radius: 14px; flex-shrink: 0;
-    }
-    .cart-header { padding: 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
-    .cart-list { flex: 1; padding: 18px; overflow-y: auto; }
-    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .btn-qty { width: 26px; height: 26px; border: 1px solid var(--border); background: white; border-radius: 6px; cursor: pointer; font-weight: 700; }
-
-    .cart-summary { padding: 18px; border-top: 1px solid var(--border); background: #f8fafc; border-radius: 0 0 14px 14px; }
-    .summary-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-sub); }
-    .summary-item.total { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-top: 8px; }
-
-    .payment-methods { display: flex; gap: 8px; margin: 12px 0; }
-    .pay-opt {
-      flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 8px;
-      background: white; text-align: center; font-size: 0.8rem; font-weight: 700; cursor: pointer;
-    }
-    .pay-opt.active { border-color: var(--primary); background: #e6f8f0; color:var(--primary); }
-
-    .btn-checkout {
-      width: 100%; padding: 14px; background: var(--primary); color: white;
-      border: none; border-radius: 10px; font-weight: 800; cursor: pointer;
+    .notif-badge {
+      position: absolute; top: 6px; right: 6px; background: #ef4444; color: white;
+      font-size: 0.65rem; font-weight: 800; width: 16px; height: 16px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
     }
 
-    /* GENERAL COMPONENTS */
-    .card-box { background: var(--surface); padding: 20px; border-radius: 14px; border: 1px solid var(--border); }
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-    .form-group input, .form-group select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
-    .btn-primary { background: var(--primary); color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .greeting { font-size: 1.35rem; font-weight: 800; margin-top: 10px; }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { padding: 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 0.9rem; }
-    th { background: #f8fafc; }
+    /* CONTENT WRAPPER */
+    .container { padding: 0 16px; margin-top: -25px; }
 
-    .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-    .stat-card { background: var(--surface); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-    .stat-card h4 { color: var(--text-sub); font-size: 0.85rem; margin-bottom: 8px; }
-    .stat-card p { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+    /* TRIAL BANNER */
+    .trial-banner {
+      background: #e6f7f0; border: 1px solid #b7ebcf; border-radius: 18px;
+      padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    }
+    .banner-icon {
+      width: 40px; height: 40px; background: #ccefdc; color: var(--primary-green);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .banner-text { flex: 1; }
+    .banner-text h4 { font-size: 0.85rem; font-weight: 800; color: #005c3b; margin-bottom: 2px; }
+    .banner-text p { font-size: 0.72rem; color: #475569; }
+    .banner-arrow { color: #005c3b; font-size: 0.9rem; }
 
-    /* RESPONSIVE HP */
-    @media (max-width: 768px) {
-      body { overflow-y: auto; }
-      .app-layout { flex-direction: column; height: auto; }
-      .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 12px 15px; }
-      .nav-list { flex-direction: row; margin-top: 12px; overflow-x: auto; padding-bottom: 5px; }
-      .nav-link { padding: 8px 14px; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; }
-      .content-viewport { padding: 12px; height: auto; overflow: visible; }
-      .pos-container { flex-direction: column; height: auto; overflow: visible; }
-      .pos-main { overflow: visible; }
-      .grid-products { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .cart-panel { width: 100%; height: auto; margin-top: 15px; }
-      .stat-cards { grid-template-columns: 1fr; }
+    /* STATS GRID 2x2 */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .stat-card {
+      background: var(--surface); border-radius: 18px; padding: 16px;
+      border: 1px solid #f1f5f9; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .stat-icon {
+      width: 38px; height: 38px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 12px;
+    }
+    .bg-green { background: #e6f7f0; color: #00a676; }
+    .bg-blue { background: #e0f2fe; color: #0284c7; }
+    .bg-purple { background: #f3e8ff; color: #9333ea; }
+    .bg-yellow { background: #fef9c3; color: #ca8a04; }
+    .bg-pink { background: #ffe4e6; color: #e11d48; }
+
+    .stat-value { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
+    .stat-label { font-size: 0.75rem; color: var(--text-sub); font-weight: 500; margin-bottom: 8px; }
+    .stat-change { font-size: 0.7rem; font-weight: 700; color: var(--green-badge); display: flex; align-items: center; gap: 3px; }
+
+    /* MENU GRID 4 COLUMN */
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 12px;
+      background: var(--surface); padding: 20px 12px; border-radius: 20px;
+      border: 1px solid #f1f5f9; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .menu-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; cursor: pointer; position: relative; }
+    .menu-icon {
+      width: 52px; height: 52px; border-radius: 16px; display: flex;
+      align-items: center; justify-content: center; font-size: 1.3rem; position: relative;
+    }
+    .menu-label { font-size: 0.72rem; font-weight: 700; color: #334155; line-height: 1.2; }
+    .badge-lock {
+      position: absolute; top: -6px; background: #eeddff; color: #7e22ce;
+      font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 8px; border: 1px solid #d8b4fe;
     }
 
-    /* CSS CETAK/PRINT STRUK ISOLASI TOTAL */
+    /* BOTTOM NAV BAR */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface);
+      border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around;
+      align-items: center; height: 65px; padding: 0 10px; z-index: 100;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      color: #94a3b8; text-decoration: none; font-size: 0.7rem; font-weight: 700; flex: 1;
+    }
+    .nav-item i { font-size: 1.2rem; }
+    .nav-item.active { color: var(--primary-green); }
+
+    .nav-fab {
+      width: 52px; height: 52px; background: var(--primary-green); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-top: -25px; box-shadow: 0 6px 16px rgba(0, 166, 118, 0.4);
+      border: 3px solid white; cursor: pointer;
+    }
+
     @media print {
-      @page {
-        margin: 0;
-        size: auto;
-      }
-      body * {
-        visibility: hidden !important;
-      }
-      .cart-panel, .cart-panel * {
-        visibility: visible !important;
-      }
-      .cart-panel {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        max-width: 80mm !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 10px !important;
-      }
-      .cart-header button,
-      .payment-methods,
-      .btn-checkout,
-      .btn-qty,
-      .pay-opt,
-      .cart-header a,
-      .cart-header span[onclick] {
-        display: none !important;
-      }
+      body { display: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <div class="app-layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo"><i class="fa-solid fa-cash-register"></i></div>
-        <div class="brand-title">Majoo<span>PRO</span></div>
+  <!-- HEADER -->
+  <div class="header-bg">
+    <div class="top-bar">
+      <div class="user-profile">
+        <div class="name-row">
+          <span class="user-name">Dimas Wahyu</span>
+          <span class="badge-pro"><i class="fa-solid fa-crown"></i> Pro</span>
+        </div>
+        <div class="sub-info">
+          Semua Cabang <i class="fa-solid fa-chevron-down"></i>
+          <span class="badge-online">● Online</span>
+        </div>
       </div>
-      <nav class="nav-list">
-        <a class="nav-link active" onclick="loadPage('pos', this)"><i class="fa-solid fa-store"></i> POS Kasir</a>
-        <a class="nav-link" onclick="loadPage('inventory', this)"><i class="fa-solid fa-boxes-stacked"></i> Stok & Produk</a>
-        <a class="nav-link" onclick="loadPage('reports', this)"><i class="fa-solid fa-chart-line"></i> Laporan</a>
-      </nav>
-    </aside>
-
-    <main id="main-content" class="content-viewport">
-      <div class="loader">Memuat halaman...</div>
-    </main>
+      <div class="notif-btn">
+        <i class="fa-regular fa-bell"></i>
+        <span class="notif-badge">5</span>
+      </div>
+    </div>
+    <div class="greeting">Selamat Malam, Dimas!</div>
   </div>
 
-  <script src="js/app.js"></script>
-  <script src="js/router.js"></script>
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- BANNER TRIAL -->
+    <div class="trial-banner">
+      <div class="banner-icon"><i class="fa-solid fa-chart-line"></i></div>
+      <div class="banner-text">
+        <h4>Hemat 2 jam rekap manual tiap hari</h4>
+        <p>Semua fitur Pro aktif 5 hari — nikmati selagi trial.</p>
+      </div>
+      <i class="fa-solid fa-chevron-right banner-arrow"></i>
+    </div>
+
+    <!-- STATS GRID 2x2 -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon bg-green"><i class="fa-solid fa-circle-dollar-to-slot"></i></div>
+        <div class="stat-value">Rp 0</div>
+        <div class="stat-label">Penjualan Hari Ini</div>
+        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon bg-blue"><i class="fa-solid fa-receipt"></i></div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">Total Transaksi</div>
+        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon bg-purple"><i class="fa-solid fa-chart-simple"></i></div>
+        <div class="stat-value">Rp 0</div>
+        <div class="stat-label">Rata-rata</div>
+        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon bg-yellow"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">Pelanggan</div>
+        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+      </div>
+    </div>
+
+    <!-- QUICK MENU GRID -->
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div class="menu-icon bg-green"><i class="fa-solid fa-qrcode"></i></div>
+        <span class="menu-label">Kasir Baru</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="badge-lock"><i class="fa-solid fa-lock"></i> Bisnis</span>
+        <div class="menu-icon bg-green"><i class="fa-solid fa-cart-shopping"></i></div>
+        <span class="menu-label">Pembelian</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-icon bg-purple"><i class="fa-regular fa-clock"></i></div>
+        <span class="menu-label">Riwayat</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-icon bg-yellow"><i class="fa-solid fa-chart-pie"></i></div>
+        <span class="menu-label">Laporan</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-icon bg-blue"><i class="fa-solid fa-cube"></i></div>
+        <span class="menu-label">Produk</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-icon bg-green"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <span class="menu-label">Stok</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-icon bg-pink"><i class="fa-solid fa-wallet"></i></div>
+        <span class="menu-label">Kas Masuk/Keluar</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-icon bg-blue"><i class="fa-solid fa-border-all"></i></div>
+        <span class="menu-label">Lihat Semua</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav">
+    <a class="nav-item active">
+      <i class="fa-solid fa-house"></i>
+      <span>Beranda</span>
+    </a>
+    <a class="nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Kasir</span>
+    </a>
+    <div class="nav-fab">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <a class="nav-item">
+      <i class="fa-solid fa-box"></i>
+      <span>Produk</span>
+    </a>
+    <a class="nav-item">
+      <i class="fa-solid fa-ellipsis"></i>
+      <span>Lainnya</span>
+    </a>
+  </nav>
+
 </body>
 </html>
