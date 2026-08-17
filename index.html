@@ -139,21 +139,37 @@
       .stat-cards { grid-template-columns: 1fr; }
     }
 
-    /* FORMAT PRINT/STRUK TERMAL */
+    /* CSS CETAK/PRINT STRUK ISOLASI TOTAL */
     @media print {
-      body { background: #fff !important; color: #000 !important; font-size: 12px; }
-      .sidebar, .pos-main, .payment-methods, .btn-checkout, .btn-qty, .cart-header button {
-        display: none !important;
+      @page {
+        margin: 0;
+        size: auto;
       }
-      .app-layout, .content-viewport, .pos-container {
-        display: block !important; padding: 0 !important; margin: 0 !important; width: 100% !important;
+      body * {
+        visibility: hidden !important;
+      }
+      .cart-panel, .cart-panel * {
+        visibility: visible !important;
       }
       .cart-panel {
-        width: 100% !important; max-width: 280px !important; margin: 0 auto !important;
-        border: none !important; box-shadow: none !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 80mm !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 10px !important;
       }
-      .cart-header { text-align: center; border-bottom: 1px dashed #000 !important; }
-      .cart-summary { background: transparent !important; border-top: 1px dashed #000 !important; padding: 10px 0 !important; }
+      .cart-header button,
+      .payment-methods,
+      .btn-checkout,
+      .btn-qty,
+      .pay-opt,
+      .cart-header a,
+      .cart-header span[onclick] {
+        display: none !important;
+      }
     }
   </style>
 </head>
