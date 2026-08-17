@@ -1,13 +1,19 @@
-// STATE DATABASE APLIKASI
-let products = [
+// STATE DATABASE APLIKASI (DENGAN DUKUNGAN LOCALSTORAGE)
+let products = JSON.parse(localStorage.getItem('pos_products')) || [
   { id: 1, name: 'Kopi Susu Aren Pro', price: 18000, category: 'minuman' },
   { id: 2, name: 'Nasi Goreng Spesial', price: 25000, category: 'makanan' },
   { id: 3, name: 'Roti Bakar Keju', price: 16000, category: 'snack' }
 ];
 
 let cart = [];
-let transactions = [];
+let transactions = JSON.parse(localStorage.getItem('pos_transactions')) || [];
 let selectedPayment = 'Cash';
+
+// FUNGSI OTOMATIS SIMPAN KE STORAGE BROWSER
+function saveData() {
+  localStorage.setItem('pos_products', JSON.stringify(products));
+  localStorage.setItem('pos_transactions', JSON.stringify(transactions));
+}
 
 // FUNGSI MODUL POS (KASIR)
 function renderPOSProducts(items = products) {
@@ -109,7 +115,8 @@ function processCheckout() {
     qty: totalQty
   });
 
-  alert('Transaksi Berhasil Disimpan!');
+  saveData();
+  window.print();
   resetCart();
 }
 
@@ -136,6 +143,8 @@ function addNewProduct() {
   if (!name || isNaN(price)) return alert('Isi nama dan harga dengan benar!');
 
   products.push({ id: Date.now(), name: name, price: price, category: cat });
+  saveData();
+  
   document.getElementById('newProdName').value = '';
   document.getElementById('newProdPrice').value = '';
   
@@ -145,6 +154,7 @@ function addNewProduct() {
 
 function deleteProduct(id) {
   products = products.filter(p => p.id !== id);
+  saveData();
   renderProductTable();
 }
 
