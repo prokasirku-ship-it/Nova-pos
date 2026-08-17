@@ -59,11 +59,20 @@
     }
     .search-bar input { border: none; outline: none; width: 100%; font-size: 0.95rem; }
 
-    .cat-wrapper { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+    /* KATEGORI SCROLL (FIXED CLIPPING) */
+    .cat-wrapper {
+      display: flex; gap: 10px; overflow-x: auto;
+      padding: 4px 15px 8px 4px;
+      margin-right: -15px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cat-wrapper::-webkit-scrollbar { display: none; }
+
     .cat-btn {
       border: 1px solid var(--border); background: var(--surface);
       padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;
-      color: var(--text-sub); cursor: pointer; white-space: nowrap;
+      color: var(--text-sub); cursor: pointer; white-space: nowrap; flex-shrink: 0;
     }
     .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
@@ -127,7 +136,7 @@
         border-bottom: 1px solid var(--border); padding: 12px 15px;
       }
       .nav-list { flex-direction: row; margin-top: 12px; overflow-x: auto; padding-bottom: 5px; }
-      .nav-link { padding: 8px 14px; font-size: 0.82rem; white-space: nowrap; }
+      .nav-link { padding: 8px 14px; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; }
 
       .content-viewport { padding: 12px; height: auto; overflow: visible; }
       
