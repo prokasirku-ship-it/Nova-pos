@@ -12,14 +12,18 @@
       --header-bg: #00875a;
       --bg-app: #f4f6f9;
       --surface: #ffffff;
-      --border: #f1f5f9;
+      --border: #e2e8f0;
       --text-main: #0f172a;
       --text-sub: #64748b;
       --green-badge: #10b981;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; padding-bottom: 90px; }
+    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; padding-bottom: 80px; }
+
+    /* VIEW MANAGEMENT */
+    .app-view { display: none; }
+    .app-view.active { display: block; }
 
     /* HEADER AREA */
     .header-bg {
@@ -56,10 +60,10 @@
 
     .greeting { font-size: 1.35rem; font-weight: 800; margin-top: 10px; }
 
-    /* CONTENT WRAPPER */
+    /* CONTAINER WRAPPER */
     .container { padding: 0 16px; margin-top: -25px; }
 
-    /* TRIAL BANNER */
+    /* BANNER */
     .trial-banner {
       background: #e6f7f0; border: 1px solid #b7ebcf; border-radius: 18px;
       padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
@@ -71,7 +75,6 @@
     .banner-text { flex: 1; }
     .banner-text h4 { font-size: 0.85rem; font-weight: 800; color: #005c3b; margin-bottom: 2px; }
     .banner-text p { font-size: 0.72rem; color: #475569; }
-    .banner-arrow { color: #005c3b; font-size: 0.9rem; }
 
     /* STATS GRID 2x2 */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
@@ -110,6 +113,20 @@
       font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 8px; border: 1px solid #d8b4fe;
     }
 
+    /* POS KASIR VIEW */
+    .pos-layout { padding: 16px; }
+    .search-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; gap: 10px; margin-bottom: 12px; }
+    .search-bar input { border: none; outline: none; width: 100%; }
+    .cat-wrapper { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 12px; }
+    .cat-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: white; white-space: nowrap; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+    .cat-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
+    .grid-products { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .card-product { background: white; border-radius: 14px; border: 1px solid var(--border); padding: 12px; cursor: pointer; }
+
+    /* CART PANEL */
+    .cart-box { background: white; border-radius: 16px; border: 1px solid var(--border); padding: 16px; }
+    .btn-action { width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+
     /* BOTTOM NAV BAR */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface);
@@ -118,7 +135,7 @@
     }
     .nav-item {
       display: flex; flex-direction: column; align-items: center; gap: 3px;
-      color: #94a3b8; text-decoration: none; font-size: 0.7rem; font-weight: 700; flex: 1;
+      color: #94a3b8; text-decoration: none; font-size: 0.7rem; font-weight: 700; flex: 1; cursor: pointer;
     }
     .nav-item i { font-size: 1.2rem; }
     .nav-item.active { color: var(--primary-green); }
@@ -131,145 +148,278 @@
     }
 
     @media print {
-      body { display: none !important; }
+      body * { visibility: hidden; }
+      .cart-box, .cart-box * { visibility: visible; }
+      .cart-box { position: absolute; left: 0; top: 0; width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <div class="header-bg">
-    <div class="top-bar">
-      <div class="user-profile">
-        <div class="name-row">
-          <span class="user-name">Dimas Wahyu</span>
-          <span class="badge-pro"><i class="fa-solid fa-crown"></i> Pro</span>
+  <!-- VIEW 1: BERANDA / DASHBOARD -->
+  <div id="view-beranda" class="app-view active">
+    <div class="header-bg">
+      <div class="top-bar">
+        <div class="user-profile">
+          <div class="name-row">
+            <span class="user-name">Dimas Wahyu</span>
+            <span class="badge-pro"><i class="fa-solid fa-crown"></i> Pro</span>
+          </div>
+          <div class="sub-info">
+            Semua Cabang <i class="fa-solid fa-chevron-down"></i>
+            <span class="badge-online">● Online</span>
+          </div>
         </div>
-        <div class="sub-info">
-          Semua Cabang <i class="fa-solid fa-chevron-down"></i>
-          <span class="badge-online">● Online</span>
+        <div class="notif-btn" onclick="alert('Tidak ada notifikasi baru')">
+          <i class="fa-regular fa-bell"></i>
+          <span class="notif-badge">5</span>
         </div>
       </div>
-      <div class="notif-btn">
-        <i class="fa-regular fa-bell"></i>
-        <span class="notif-badge">5</span>
+      <div class="greeting">Selamat Malam, Dimas!</div>
+    </div>
+
+    <div class="container">
+      <div class="trial-banner">
+        <div class="banner-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="banner-text">
+          <h4>Hemat 2 jam rekap manual tiap hari</h4>
+          <p>Semua fitur Pro aktif 5 hari — nikmati selagi trial.</p>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon bg-green"><i class="fa-solid fa-circle-dollar-to-slot"></i></div>
+          <div class="stat-value" id="dash-omset">Rp 0</div>
+          <div class="stat-label">Penjualan Hari Ini</div>
+          <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-blue"><i class="fa-solid fa-receipt"></i></div>
+          <div class="stat-value" id="dash-trx">0</div>
+          <div class="stat-label">Total Transaksi</div>
+          <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-purple"><i class="fa-solid fa-chart-simple"></i></div>
+          <div class="stat-value">Rp 0</div>
+          <div class="stat-label">Rata-rata</div>
+          <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-yellow"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-value">0</div>
+          <div class="stat-label">Pelanggan</div>
+          <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+        </div>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-item" onclick="switchView('kasir')">
+          <div class="menu-icon bg-green"><i class="fa-solid fa-qrcode"></i></div>
+          <span class="menu-label">Kasir Baru</span>
+        </div>
+        <div class="menu-item" onclick="alert('Fitur Pembelian Pro Aktif')">
+          <span class="badge-lock"><i class="fa-solid fa-lock"></i> Bisnis</span>
+          <div class="menu-icon bg-green"><i class="fa-solid fa-cart-shopping"></i></div>
+          <span class="menu-label">Pembelian</span>
+        </div>
+        <div class="menu-item" onclick="alert('Riwayat Transaksi Kosong')">
+          <div class="menu-icon bg-purple"><i class="fa-regular fa-clock"></i></div>
+          <span class="menu-label">Riwayat</span>
+        </div>
+        <div class="menu-item" onclick="switchView('laporan')">
+          <div class="menu-icon bg-yellow"><i class="fa-solid fa-chart-pie"></i></div>
+          <span class="menu-label">Laporan</span>
+        </div>
+        <div class="menu-item" onclick="switchView('produk')">
+          <div class="menu-icon bg-blue"><i class="fa-solid fa-cube"></i></div>
+          <span class="menu-label">Produk</span>
+        </div>
+        <div class="menu-item" onclick="switchView('produk')">
+          <div class="menu-icon bg-green"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <span class="menu-label">Stok</span>
+        </div>
+        <div class="menu-item" onclick="alert('Fitur Kas Masuk/Keluar')">
+          <div class="menu-icon bg-pink"><i class="fa-solid fa-wallet"></i></div>
+          <span class="menu-label">Kas Masuk/Keluar</span>
+        </div>
+        <div class="menu-item" onclick="switchView('kasir')">
+          <div class="menu-icon bg-blue"><i class="fa-solid fa-border-all"></i></div>
+          <span class="menu-label">Lihat Semua</span>
+        </div>
       </div>
     </div>
-    <div class="greeting">Selamat Malam, Dimas!</div>
   </div>
 
-  <!-- MAIN CONTAINER -->
-  <div class="container">
-
-    <!-- BANNER TRIAL -->
-    <div class="trial-banner">
-      <div class="banner-icon"><i class="fa-solid fa-chart-line"></i></div>
-      <div class="banner-text">
-        <h4>Hemat 2 jam rekap manual tiap hari</h4>
-        <p>Semua fitur Pro aktif 5 hari — nikmati selagi trial.</p>
-      </div>
-      <i class="fa-solid fa-chevron-right banner-arrow"></i>
+  <!-- VIEW 2: POS KASIR -->
+  <div id="view-kasir" class="app-view pos-layout">
+    <div style="font-weight:800; font-size:1.2rem; margin-bottom:12px;">POS Kasir</div>
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+      <input type="text" placeholder="Cari nama produk...">
     </div>
 
-    <!-- STATS GRID 2x2 -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon bg-green"><i class="fa-solid fa-circle-dollar-to-slot"></i></div>
-        <div class="stat-value">Rp 0</div>
-        <div class="stat-label">Penjualan Hari Ini</div>
-        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
-      </div>
+    <div class="cat-wrapper">
+      <button class="cat-btn active">Semua Menu</button>
+      <button class="cat-btn">Makanan</button>
+      <button class="cat-btn">Minuman</button>
+      <button class="cat-btn">Cemilan</button>
+    </div>
 
-      <div class="stat-card">
-        <div class="stat-icon bg-blue"><i class="fa-solid fa-receipt"></i></div>
-        <div class="stat-value">0</div>
-        <div class="stat-label">Total Transaksi</div>
-        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+    <div class="grid-products">
+      <div class="card-product" onclick="addToCart('Kopi Susu Aren Pro', 18000)">
+        <div style="font-weight:700; font-size:0.9rem;">Kopi Susu Aren Pro</div>
+        <div style="color:var(--text-sub); font-size:0.75rem;">Minuman</div>
+        <div style="color:var(--primary-green); font-weight:800; margin-top:8px;">Rp 18.000</div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-icon bg-purple"><i class="fa-solid fa-chart-simple"></i></div>
-        <div class="stat-value">Rp 0</div>
-        <div class="stat-label">Rata-rata</div>
-        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+      <div class="card-product" onclick="addToCart('Nasi Goreng Spesial', 25000)">
+        <div style="font-weight:700; font-size:0.9rem;">Nasi Goreng Spesial</div>
+        <div style="color:var(--text-sub); font-size:0.75rem;">Makanan</div>
+        <div style="color:var(--primary-green); font-weight:800; margin-top:8px;">Rp 25.000</div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-icon bg-yellow"><i class="fa-solid fa-users"></i></div>
-        <div class="stat-value">0</div>
-        <div class="stat-label">Pelanggan</div>
-        <div class="stat-change"><i class="fa-solid fa-arrow-up"></i> +0.0%</div>
+      <div class="card-product" onclick="addToCart('Roti Bakar Keju', 16000)">
+        <div style="font-weight:700; font-size:0.9rem;">Roti Bakar Keju</div>
+        <div style="color:var(--text-sub); font-size:0.75rem;">Cemilan</div>
+        <div style="color:var(--primary-green); font-weight:800; margin-top:8px;">Rp 16.000</div>
       </div>
     </div>
 
-    <!-- QUICK MENU GRID -->
-    <div class="menu-grid">
-      <div class="menu-item">
-        <div class="menu-icon bg-green"><i class="fa-solid fa-qrcode"></i></div>
-        <span class="menu-label">Kasir Baru</span>
+    <div class="cart-box">
+      <div style="font-weight:800; margin-bottom:10px; display:flex; justify-content:space-between;">
+        <span>Keranjang</span>
+        <span onclick="clearCart()" style="color:#ef4444; font-size:0.8rem; cursor:pointer;">Reset</span>
       </div>
-
-      <div class="menu-item">
-        <span class="badge-lock"><i class="fa-solid fa-lock"></i> Bisnis</span>
-        <div class="menu-icon bg-green"><i class="fa-solid fa-cart-shopping"></i></div>
-        <span class="menu-label">Pembelian</span>
+      <div id="cart-items" style="font-size:0.85rem; color:var(--text-sub); margin-bottom:10px;">Keranjang kosong</div>
+      <hr style="border:none; border-top:1px dashed var(--border); margin:10px 0;">
+      <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1rem;">
+        <span>Total Bayar</span>
+        <span id="cart-total">Rp 0</span>
       </div>
+      <button class="btn-action" onclick="checkout()">Proses Transaksi & Cetak</button>
+    </div>
+  </div>
 
-      <div class="menu-item">
-        <div class="menu-icon bg-purple"><i class="fa-regular fa-clock"></i></div>
-        <span class="menu-label">Riwayat</span>
+  <!-- VIEW 3: PRODUK / STOK -->
+  <div id="view-produk" class="app-view" style="padding:20px;">
+    <div style="font-weight:800; font-size:1.2rem; margin-bottom:15px;">Daftar Produk & Stok</div>
+    <div style="background:white; border-radius:12px; padding:15px; border:1px solid var(--border);">
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+        <span>Kopi Susu Aren Pro</span>
+        <span style="color:var(--primary-green);">Stok: 50</span>
       </div>
-
-      <div class="menu-item">
-        <div class="menu-icon bg-yellow"><i class="fa-solid fa-chart-pie"></i></div>
-        <span class="menu-label">Laporan</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+        <span>Nasi Goreng Spesial</span>
+        <span style="color:var(--primary-green);">Stok: 30</span>
       </div>
-
-      <div class="menu-item">
-        <div class="menu-icon bg-blue"><i class="fa-solid fa-cube"></i></div>
-        <span class="menu-label">Produk</span>
-      </div>
-
-      <div class="menu-item">
-        <div class="menu-icon bg-green"><i class="fa-solid fa-boxes-stacked"></i></div>
-        <span class="menu-label">Stok</span>
-      </div>
-
-      <div class="menu-item">
-        <div class="menu-icon bg-pink"><i class="fa-solid fa-wallet"></i></div>
-        <span class="menu-label">Kas Masuk/Keluar</span>
-      </div>
-
-      <div class="menu-item">
-        <div class="menu-icon bg-blue"><i class="fa-solid fa-border-all"></i></div>
-        <span class="menu-label">Lihat Semua</span>
+      <div style="display:flex; justify-content:space-between; font-weight:700;">
+        <span>Roti Bakar Keju</span>
+        <span style="color:var(--primary-green);">Stok: 25</span>
       </div>
     </div>
+  </div>
 
+  <!-- VIEW 4: LAPORAN -->
+  <div id="view-laporan" class="app-view" style="padding:20px;">
+    <div style="font-weight:800; font-size:1.2rem; margin-bottom:15px;">Laporan Penjualan</div>
+    <div style="background:white; border-radius:12px; padding:20px; border:1px solid var(--border); text-align:center;">
+      <div style="color:var(--text-sub); font-size:0.85rem;">Total Pendapatan</div>
+      <div id="report-total" style="font-size:1.8rem; font-weight:800; color:var(--primary-green); margin:10px 0;">Rp 0</div>
+      <div style="color:var(--text-sub); font-size:0.85rem;">Total Transaksi: <b id="report-count">0</b></div>
+    </div>
   </div>
 
   <!-- BOTTOM NAVIGATION BAR -->
   <nav class="bottom-nav">
-    <a class="nav-item active">
+    <div class="nav-item active" id="nav-beranda" onclick="switchView('beranda')">
       <i class="fa-solid fa-house"></i>
       <span>Beranda</span>
-    </a>
-    <a class="nav-item">
+    </div>
+    <div class="nav-item" id="nav-kasir" onclick="switchView('kasir')">
       <i class="fa-solid fa-cart-shopping"></i>
       <span>Kasir</span>
-    </a>
-    <div class="nav-fab">
+    </div>
+    <div class="nav-fab" onclick="switchView('kasir')">
       <i class="fa-solid fa-plus"></i>
     </div>
-    <a class="nav-item">
+    <div class="nav-item" id="nav-produk" onclick="switchView('produk')">
       <i class="fa-solid fa-box"></i>
       <span>Produk</span>
-    </a>
-    <a class="nav-item">
+    </div>
+    <div class="nav-item" id="nav-laporan" onclick="switchView('laporan')">
       <i class="fa-solid fa-ellipsis"></i>
       <span>Lainnya</span>
-    </a>
+    </div>
   </nav>
 
+  <!-- JAVASCRIPT LOGIC NAVIGASI & KASIR -->
+  <script>
+    let cart = [];
+    let totalOmset = 0;
+    let totalTrx = 0;
+
+    function switchView(viewName) {
+      document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const targetView = document.getElementById('view-' + viewName);
+      if (targetView) targetView.classList.add('active');
+
+      const targetNav = document.getElementById('nav-' + viewName);
+      if (targetNav) targetNav.classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      if (cart.length === 0) {
+        cartList.innerHTML = 'Keranjang kosong';
+        cartTotal.innerText = 'Rp 0';
+        return;
+      }
+      let html = '';
+      let total = 0;
+      cart.forEach((item) => {
+        total += item.price;
+        html += `<div style="display:flex; justify-content:space-between; margin-bottom:6px; color:var(--text-main); font-weight:600;">
+          <span>${item.name}</span>
+          <span>Rp ${item.price.toLocaleString('id-ID')}</span>
+        </div>`;
+      });
+      cartList.innerHTML = html;
+      cartTotal.innerText = 'Rp ' + total.toLocaleString('id-ID');
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Keranjang masih kosong!');
+        return;
+      }
+      let total = cart.reduce((sum, item) => sum + item.price, 0);
+      totalOmset += total;
+      totalTrx += 1;
+
+      // Update Dashboard & Laporan
+      document.getElementById('dash-omset').innerText = 'Rp ' + totalOmset.toLocaleString('id-ID');
+      document.getElementById('dash-trx').innerText = totalTrx;
+      document.getElementById('report-total').innerText = 'Rp ' + totalOmset.toLocaleString('id-ID');
+      document.getElementById('report-count').innerText = totalTrx;
+
+      window.print();
+      clearCart();
+    }
+  </script>
 </body>
 </html>
