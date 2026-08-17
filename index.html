@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Majoo POS Enterprise</title>
+  <title>POS Enterprise Dashboard & Settings</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary-green: #00a676;
-      --header-bg: #00875a;
-      --bg-app: #f4f6f9;
+      --header-bg: linear-gradient(135deg, #007a52 0%, #00a676 100%);
+      --bg-app: #f6f8fa;
       --surface: #ffffff;
-      --border: #e2e8f0;
+      --border: #edf2f7;
       --text-main: #0f172a;
       --text-sub: #64748b;
-      --green-badge: #10b981;
+      --accent-orange: #f59e0b;
+      --danger-red: #ef4444;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; padding-bottom: 80px; }
+    body { background-color: var(--bg-app); color: var(--text-main); min-height: 100vh; padding-bottom: 90px; }
 
     /* VIEW MANAGEMENT */
     .app-view { display: none; }
@@ -27,13 +28,13 @@
 
     /* HEADER AREA */
     .header-bg {
-      background: linear-gradient(135deg, #007a52 0%, #00a676 100%);
+      background: var(--header-bg);
       color: white;
-      padding: 20px 20px 45px 20px;
-      border-bottom-left-radius: 24px;
-      border-bottom-right-radius: 24px;
+      padding: 20px 20px 40px 20px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
     }
-    .top-bar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
     .user-profile { display: flex; flex-direction: column; gap: 4px; }
     .name-row { display: flex; align-items: center; gap: 8px; }
     .user-name { font-size: 1.15rem; font-weight: 800; }
@@ -48,43 +49,43 @@
     }
 
     .notif-btn {
-      width: 42px; height: 42px; background: rgba(255, 255, 255, 0.18);
+      width: 40px; height: 40px; background: rgba(255, 255, 255, 0.18);
       border-radius: 12px; display: flex; align-items: center; justify-content: center;
       position: relative; font-size: 1.1rem; cursor: pointer;
     }
     .notif-badge {
-      position: absolute; top: 6px; right: 6px; background: #ef4444; color: white;
+      position: absolute; top: 4px; right: 4px; background: #ef4444; color: white;
       font-size: 0.65rem; font-weight: 800; width: 16px; height: 16px;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
     }
 
-    .greeting { font-size: 1.35rem; font-weight: 800; margin-top: 10px; }
+    .greeting { font-size: 1.3rem; font-weight: 800; margin-top: 6px; }
 
     /* CONTAINER WRAPPER */
-    .container { padding: 0 16px; margin-top: -25px; }
+    .container { padding: 0 16px; margin-top: -20px; }
 
     /* BANNER */
     .trial-banner {
-      background: #e6f7f0; border: 1px solid #b7ebcf; border-radius: 18px;
+      background: #e6f7f0; border: 1px solid #b7ebcf; border-radius: 16px;
       padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
     }
     .banner-icon {
-      width: 40px; height: 40px; background: #ccefdc; color: var(--primary-green);
-      border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+      width: 38px; height: 38px; background: #ccefdc; color: var(--primary-green);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
     }
     .banner-text { flex: 1; }
     .banner-text h4 { font-size: 0.85rem; font-weight: 800; color: #005c3b; margin-bottom: 2px; }
     .banner-text p { font-size: 0.72rem; color: #475569; }
 
     /* STATS GRID 2x2 */
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
     .stat-card {
-      background: var(--surface); border-radius: 18px; padding: 16px;
-      border: 1px solid #f1f5f9; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      background: var(--surface); border-radius: 16px; padding: 14px;
+      border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.01);
     }
     .stat-icon {
-      width: 38px; height: 38px; border-radius: 12px; display: flex;
-      align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 12px;
+      width: 36px; height: 36px; border-radius: 10px; display: flex;
+      align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 10px;
     }
     .bg-green { background: #e6f7f0; color: #00a676; }
     .bg-blue { background: #e0f2fe; color: #0284c7; }
@@ -92,40 +93,110 @@
     .bg-yellow { background: #fef9c3; color: #ca8a04; }
     .bg-pink { background: #ffe4e6; color: #e11d48; }
 
-    .stat-value { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
-    .stat-label { font-size: 0.75rem; color: var(--text-sub); font-weight: 500; margin-bottom: 8px; }
-    .stat-change { font-size: 0.7rem; font-weight: 700; color: var(--green-badge); display: flex; align-items: center; gap: 3px; }
+    .stat-value { font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
+    .stat-label { font-size: 0.72rem; color: var(--text-sub); font-weight: 500; margin-bottom: 6px; }
+    .stat-change { font-size: 0.68rem; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 3px; }
 
     /* MENU GRID 4 COLUMN */
     .menu-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 12px;
-      background: var(--surface); padding: 20px 12px; border-radius: 20px;
-      border: 1px solid #f1f5f9; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px;
+      background: var(--surface); padding: 18px 10px; border-radius: 18px;
+      border: 1px solid var(--border);
     }
-    .menu-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; cursor: pointer; position: relative; }
+    .menu-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; cursor: pointer; position: relative; }
     .menu-icon {
-      width: 52px; height: 52px; border-radius: 16px; display: flex;
-      align-items: center; justify-content: center; font-size: 1.3rem; position: relative;
+      width: 48px; height: 48px; border-radius: 14px; display: flex;
+      align-items: center; justify-content: center; font-size: 1.2rem;
     }
-    .menu-label { font-size: 0.72rem; font-weight: 700; color: #334155; line-height: 1.2; }
+    .menu-label { font-size: 0.7rem; font-weight: 700; color: #334155; line-height: 1.2; }
     .badge-lock {
       position: absolute; top: -6px; background: #eeddff; color: #7e22ce;
-      font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 8px; border: 1px solid #d8b4fe;
+      font-size: 0.58rem; font-weight: 800; padding: 2px 5px; border-radius: 6px; border: 1px solid #d8b4fe;
+    }
+
+    /* PENGATURAN / LAINNYA STYLES */
+    .settings-header {
+      background: var(--header-bg); color: white; padding: 24px 20px 20px 20px;
+    }
+    .settings-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+    .settings-sub { font-size: 0.8rem; opacity: 0.9; cursor: pointer; }
+
+    .settings-body { padding: 16px; }
+
+    /* PRO PROMO CARD */
+    .card-pro-alert {
+      background: #ffffff; border: 1px solid #fef3c7; border-radius: 16px; padding: 14px; margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.05);
+    }
+    .pro-alert-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .pro-alert-icon { width: 36px; height: 36px; background: #fef3c7; color: #d97706; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .pro-alert-title { font-size: 0.8rem; font-weight: 700; color: #475569; }
+    .pro-alert-title span { background: #fef3c7; color: #b45309; padding: 1px 6px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; }
+    .pro-alert-sub { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+    .btn-renew {
+      width: 100%; background: #f59e0b; color: white; border: none; padding: 10px; border-radius: 10px;
+      font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+
+    /* SEARCH SETTINGS */
+    .settings-search {
+      background: #f1f5f9; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+    }
+    .settings-search input { border: none; background: transparent; outline: none; width: 100%; font-size: 0.82rem; }
+
+    /* SECTION GROUP */
+    .section-group { margin-bottom: 20px; }
+    .section-title { font-size: 0.68rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; padding-left: 4px; }
+    
+    .list-box { background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
+    .list-item {
+      display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;
+      border-bottom: 1px solid #f8fafc; cursor: pointer;
+    }
+    .list-item:last-child { border-bottom: none; }
+    .list-left { display: flex; align-items: center; gap: 12px; }
+    .list-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .list-text-main { font-size: 0.82rem; font-weight: 700; color: var(--text-main); }
+    .list-text-sub { font-size: 0.7rem; color: var(--text-sub); margin-top: 1px; }
+    .list-right { display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-size: 0.8rem; }
+
+    /* TOGGLE SWITCH */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1; transition: .3s; border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--primary-green); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* FOOTER LAINNYA */
+    .app-info { text-align: center; margin: 20px 0 10px 0; }
+    .app-version { font-size: 0.72rem; color: #94a3b8; font-weight: 600; }
+    .app-link { font-size: 0.72rem; color: var(--primary-green); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 2px; }
+    .btn-logout {
+      width: 100%; border: 1px solid #fca5a5; background: #fff5f5; color: #ef4444; padding: 12px;
+      border-radius: 12px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;
+    }
+    .sync-banner {
+      background: #e0f2fe; color: #0284c7; padding: 8px 12px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; display: flex; align-items: center; gap: 8px;
     }
 
     /* POS KASIR VIEW */
     .pos-layout { padding: 16px; }
     .search-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; gap: 10px; margin-bottom: 12px; }
     .search-bar input { border: none; outline: none; width: 100%; }
-    .cat-wrapper { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 12px; }
+    .cat-wrapper { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
     .cat-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: white; white-space: nowrap; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
     .cat-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
     .grid-products { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .card-product { background: white; border-radius: 14px; border: 1px solid var(--border); padding: 12px; cursor: pointer; }
-
-    /* CART PANEL */
     .cart-box { background: white; border-radius: 16px; border: 1px solid var(--border); padding: 16px; }
-    .btn-action { width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+    .btn-action { width: 100%; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 10px; }
 
     /* BOTTOM NAV BAR */
     .bottom-nav {
@@ -135,15 +206,15 @@
     }
     .nav-item {
       display: flex; flex-direction: column; align-items: center; gap: 3px;
-      color: #94a3b8; text-decoration: none; font-size: 0.7rem; font-weight: 700; flex: 1; cursor: pointer;
+      color: #94a3b8; text-decoration: none; font-size: 0.68rem; font-weight: 700; flex: 1; cursor: pointer;
     }
-    .nav-item i { font-size: 1.2rem; }
+    .nav-item i { font-size: 1.15rem; }
     .nav-item.active { color: var(--primary-green); }
 
     .nav-fab {
       width: 52px; height: 52px; background: var(--primary-green); color: white;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-top: -25px; box-shadow: 0 6px 16px rgba(0, 166, 118, 0.4);
+      font-size: 1.3rem; margin-top: -25px; box-shadow: 0 6px 16px rgba(0, 166, 118, 0.4);
       border: 3px solid white; cursor: pointer;
     }
 
@@ -156,7 +227,7 @@
 </head>
 <body>
 
-  <!-- VIEW 1: BERANDA / DASHBOARD -->
+  <!-- VIEW 1: BERANDA -->
   <div id="view-beranda" class="app-view active">
     <div class="header-bg">
       <div class="top-bar">
@@ -220,7 +291,7 @@
           <div class="menu-icon bg-green"><i class="fa-solid fa-qrcode"></i></div>
           <span class="menu-label">Kasir Baru</span>
         </div>
-        <div class="menu-item" onclick="alert('Fitur Pembelian Pro Aktif')">
+        <div class="menu-item" onclick="switchView('lainnya')">
           <span class="badge-lock"><i class="fa-solid fa-lock"></i> Bisnis</span>
           <div class="menu-icon bg-green"><i class="fa-solid fa-cart-shopping"></i></div>
           <span class="menu-label">Pembelian</span>
@@ -229,7 +300,7 @@
           <div class="menu-icon bg-purple"><i class="fa-regular fa-clock"></i></div>
           <span class="menu-label">Riwayat</span>
         </div>
-        <div class="menu-item" onclick="switchView('laporan')">
+        <div class="menu-item" onclick="switchView('lainnya')">
           <div class="menu-icon bg-yellow"><i class="fa-solid fa-chart-pie"></i></div>
           <span class="menu-label">Laporan</span>
         </div>
@@ -241,11 +312,11 @@
           <div class="menu-icon bg-green"><i class="fa-solid fa-boxes-stacked"></i></div>
           <span class="menu-label">Stok</span>
         </div>
-        <div class="menu-item" onclick="alert('Fitur Kas Masuk/Keluar')">
+        <div class="menu-item" onclick="switchView('lainnya')">
           <div class="menu-icon bg-pink"><i class="fa-solid fa-wallet"></i></div>
           <span class="menu-label">Kas Masuk/Keluar</span>
         </div>
-        <div class="menu-item" onclick="switchView('kasir')">
+        <div class="menu-item" onclick="switchView('lainnya')">
           <div class="menu-icon bg-blue"><i class="fa-solid fa-border-all"></i></div>
           <span class="menu-label">Lihat Semua</span>
         </div>
@@ -253,7 +324,7 @@
     </div>
   </div>
 
-  <!-- VIEW 2: POS KASIR -->
+  <!-- VIEW 2: KASIR -->
   <div id="view-kasir" class="app-view pos-layout">
     <div style="font-weight:800; font-size:1.2rem; margin-bottom:12px;">POS Kasir</div>
     <div class="search-bar">
@@ -270,19 +341,14 @@
 
     <div class="grid-products">
       <div class="card-product" onclick="addToCart('Kopi Susu Aren Pro', 18000)">
-        <div style="font-weight:700; font-size:0.9rem;">Kopi Susu Aren Pro</div>
-        <div style="color:var(--text-sub); font-size:0.75rem;">Minuman</div>
-        <div style="color:var(--primary-green); font-weight:800; margin-top:8px;">Rp 18.000</div>
+        <div style="font-weight:700; font-size:0.85rem;">Kopi Susu Aren Pro</div>
+        <div style="color:var(--text-sub); font-size:0.72rem;">Minuman</div>
+        <div style="color:var(--primary-green); font-weight:800; margin-top:6px; font-size:0.85rem;">Rp 18.000</div>
       </div>
       <div class="card-product" onclick="addToCart('Nasi Goreng Spesial', 25000)">
-        <div style="font-weight:700; font-size:0.9rem;">Nasi Goreng Spesial</div>
-        <div style="color:var(--text-sub); font-size:0.75rem;">Makanan</div>
-        <div style="color:var(--primary-green); font-weight:800; margin-top:8px;">Rp 25.000</div>
-      </div>
-      <div class="card-product" onclick="addToCart('Roti Bakar Keju', 16000)">
-        <div style="font-weight:700; font-size:0.9rem;">Roti Bakar Keju</div>
-        <div style="color:var(--text-sub); font-size:0.75rem;">Cemilan</div>
-        <div style="color:var(--primary-green); font-weight:800; margin-top:8px;">Rp 16.000</div>
+        <div style="font-weight:700; font-size:0.85rem;">Nasi Goreng Spesial</div>
+        <div style="color:var(--text-sub); font-size:0.72rem;">Makanan</div>
+        <div style="color:var(--primary-green); font-weight:800; margin-top:6px; font-size:0.85rem;">Rp 25.000</div>
       </div>
     </div>
 
@@ -291,9 +357,9 @@
         <span>Keranjang</span>
         <span onclick="clearCart()" style="color:#ef4444; font-size:0.8rem; cursor:pointer;">Reset</span>
       </div>
-      <div id="cart-items" style="font-size:0.85rem; color:var(--text-sub); margin-bottom:10px;">Keranjang kosong</div>
+      <div id="cart-items" style="font-size:0.82rem; color:var(--text-sub); margin-bottom:10px;">Keranjang kosong</div>
       <hr style="border:none; border-top:1px dashed var(--border); margin:10px 0;">
-      <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1rem;">
+      <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.95rem;">
         <span>Total Bayar</span>
         <span id="cart-total">Rp 0</span>
       </div>
@@ -301,32 +367,376 @@
     </div>
   </div>
 
-  <!-- VIEW 3: PRODUK / STOK -->
+  <!-- VIEW 3: PRODUK -->
   <div id="view-produk" class="app-view" style="padding:20px;">
     <div style="font-weight:800; font-size:1.2rem; margin-bottom:15px;">Daftar Produk & Stok</div>
-    <div style="background:white; border-radius:12px; padding:15px; border:1px solid var(--border);">
-      <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+    <div style="background:white; border-radius:14px; padding:15px; border:1px solid var(--border);">
+      <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:700; font-size:0.85rem;">
         <span>Kopi Susu Aren Pro</span>
         <span style="color:var(--primary-green);">Stok: 50</span>
       </div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+      <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.85rem;">
         <span>Nasi Goreng Spesial</span>
         <span style="color:var(--primary-green);">Stok: 30</span>
-      </div>
-      <div style="display:flex; justify-content:space-between; font-weight:700;">
-        <span>Roti Bakar Keju</span>
-        <span style="color:var(--primary-green);">Stok: 25</span>
       </div>
     </div>
   </div>
 
-  <!-- VIEW 4: LAPORAN -->
-  <div id="view-laporan" class="app-view" style="padding:20px;">
-    <div style="font-weight:800; font-size:1.2rem; margin-bottom:15px;">Laporan Penjualan</div>
-    <div style="background:white; border-radius:12px; padding:20px; border:1px solid var(--border); text-align:center;">
-      <div style="color:var(--text-sub); font-size:0.85rem;">Total Pendapatan</div>
-      <div id="report-total" style="font-size:1.8rem; font-weight:800; color:var(--primary-green); margin:10px 0;">Rp 0</div>
-      <div style="color:var(--text-sub); font-size:0.85rem;">Total Transaksi: <b id="report-count">0</b></div>
+  <!-- VIEW 4: LAINNYA / PENGATURAN EKSAL -->
+  <div id="view-lainnya" class="app-view">
+    <div class="settings-header">
+      <div class="settings-title">Pengaturan</div>
+      <div class="settings-sub">Semua Cabang <i class="fa-solid fa-chevron-down"></i></div>
+    </div>
+
+    <div class="settings-body">
+
+      <!-- PRO CARD ALERT -->
+      <div class="card-pro-alert">
+        <div class="pro-alert-top">
+          <div class="pro-alert-icon"><i class="fa-solid fa-crown"></i></div>
+          <div>
+            <div class="pro-alert-title">Paket Pro <span>Segera berakhir</span></div>
+            <div class="pro-alert-sub">Berakhir dalam 4 hari • 21 Agu 2026</div>
+          </div>
+        </div>
+        <button class="btn-renew" onclick="alert('Mengarahkan ke halaman pembayaran...')">
+          <i class="fa-solid fa-rotate"></i> Perpanjang Langganan
+        </button>
+      </div>
+
+      <!-- SEARCH BAR -->
+      <div class="settings-search">
+        <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+        <input type="text" placeholder="Cari menu pengaturan...">
+      </div>
+
+      <!-- SEKSI: TOKO -->
+      <div class="section-group">
+        <div class="section-title">TOKO</div>
+        <div class="list-box">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-store"></i></div>
+              <div>
+                <div class="list-text-main">Profil Toko</div>
+                <div class="list-text-sub">Nama, alamat, logo</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-yellow"><i class="fa-solid fa-crown"></i></div>
+              <div>
+                <div class="list-text-main">Langganan</div>
+                <div class="list-text-sub">Paket saat ini: Pro</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-pink"><i class="fa-solid fa-gift"></i></div>
+              <div>
+                <div class="list-text-main">Ajak Teman</div>
+                <div class="list-text-sub">Ajak teman & dapatkan komisi</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-city"></i></div>
+              <div>
+                <div class="list-text-main">Cabang</div>
+                <div class="list-text-sub">Kelola cabang toko</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-green"><i class="fa-solid fa-location-dot"></i></div>
+              <div>
+                <div class="list-text-main">Cabang Aktif</div>
+                <div class="list-text-sub">Semua Cabang</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKSI: TIM & AKSES -->
+      <div class="section-group">
+        <div class="section-title">TIM & AKSES</div>
+        <div class="list-box">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-yellow"><i class="fa-solid fa-users-gear"></i></div>
+              <div>
+                <div class="list-text-main">Karyawan</div>
+                <div class="list-text-sub">Kelola data karyawan</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-user-check"></i></div>
+              <div>
+                <div class="list-text-main">Absensi</div>
+                <div class="list-text-sub">Clock-in/out & kelola absensi</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-purple"><i class="fa-solid fa-stopwatch"></i></div>
+              <div>
+                <div class="list-text-main">Kelola Shift</div>
+                <div class="list-text-sub">Buka & tutup shift kasir</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-pink"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <div class="list-text-main">Hak Akses</div>
+                <div class="list-text-sub">Atur izin akses per role</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-green"><i class="fa-solid fa-clipboard-list"></i></div>
+              <div>
+                <div class="list-text-main">Log Aktivitas</div>
+                <div class="list-text-sub">Riwayat aktivitas pengguna</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKSI: PENJUALAN & PEMBAYARAN -->
+      <div class="section-group">
+        <div class="section-title">PENJUALAN & PEMBAYARAN</div>
+        <div class="list-box">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-receipt"></i></div>
+              <div>
+                <div class="list-text-main">Tipe Order</div>
+                <div class="list-text-sub">Dine-in, Takeaway, Delivery, dll</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-wallet"></i></div>
+              <div>
+                <div class="list-text-main">Metode Pembayaran</div>
+                <div class="list-text-sub">Tunai, QRIS, Debit, Transfer</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-qrcode"></i></div>
+              <div>
+                <div class="list-text-main">Payment Gateway</div>
+                <div class="list-text-sub">QRIS, VA, E-Wallet</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-yellow"><i class="fa-solid fa-bolt"></i></div>
+              <div>
+                <div class="list-text-main">BisaTopup (PPOB)</div>
+                <div class="list-text-sub">Catat transaksi pulsa & tagihan otomatis</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-purple"><i class="fa-solid fa-tags"></i></div>
+              <div>
+                <div class="list-text-main">Promo & Diskon</div>
+                <div class="list-text-sub">Kelola promo & diskon</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-print"></i></div>
+              <div>
+                <div class="list-text-main">Kelola Printer</div>
+                <div class="list-text-sub">Tambah & atur printer Bluetooth</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKSI: CHECKOUT TOGGLES -->
+      <div class="section-group">
+        <div class="section-title">CHECKOUT</div>
+        <div class="list-box">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-bolt"></i></div>
+              <div>
+                <div class="list-text-main">Simple Checkout</div>
+                <div class="list-text-sub">Nonaktif</div>
+              </div>
+            </div>
+            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-yellow"><i class="fa-solid fa-cash-register"></i></div>
+              <div>
+                <div class="list-text-main">Buka Laci Otomatis</div>
+                <div class="list-text-sub">Nonaktif</div>
+              </div>
+            </div>
+            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-calculator"></i></div>
+              <div>
+                <div class="list-text-main">Izinkan Jumlah Pecahan</div>
+                <div class="list-text-sub">Aktif — untuk satuan m³, kg, ½ pickup</div>
+              </div>
+            </div>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-green"><i class="fa-solid fa-volume-high"></i></div>
+              <div>
+                <div class="list-text-main">Suara Checkout Berhasil</div>
+                <div class="list-text-sub">Bunyi koin saat transaksi berhasil</div>
+              </div>
+            </div>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKSI: PRODUK & STOK -->
+      <div class="section-group">
+        <div class="section-title">PRODUK & STOK</div>
+        <div class="list-box">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-boxes-packing"></i></div>
+              <div>
+                <div class="list-text-main">Produk Bundle</div>
+                <div class="list-text-sub">Kelola paket produk</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-yellow"><i class="fa-solid fa-book-open"></i></div>
+              <div>
+                <div class="list-text-main">Resep Produk</div>
+                <div class="list-text-sub">Kelola resep & HPP</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-green"><i class="fa-solid fa-cubes"></i></div>
+              <div>
+                <div class="list-text-main">Stok Produk</div>
+                <div class="list-text-sub">Pantau stok real-time</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-blue"><i class="fa-solid fa-truck-ramp-box"></i></div>
+              <div>
+                <div class="list-text-main">Transfer Stok</div>
+                <div class="list-text-sub">Kirim stok antar cabang</div>
+              </div>
+            </div>
+            <div class="list-right"><span class="badge-lock" style="position:static;"><i class="fa-solid fa-lock"></i> Bisnis</span> <i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKSI: BANTUAN -->
+      <div class="section-group">
+        <div class="section-title">BANTUAN</div>
+        <div class="list-box">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-green"><i class="fa-solid fa-comments"></i></div>
+              <div>
+                <div class="list-text-main">Tanya Bantuan (AI)</div>
+                <div class="list-text-sub">Tanya cara pakai, dijawab dari panduan resmi</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-purple"><i class="fa-solid fa-book"></i></div>
+              <div>
+                <div class="list-text-main">Panduan Penggunaan</div>
+                <div class="list-text-sub">Buka panduan lengkap di docs.bisakasir.id</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="list-item">
+            <div class="list-left">
+              <div class="list-icon bg-green"><i class="fa-brands fa-whatsapp"></i></div>
+              <div>
+                <div class="list-text-main">Bantuan Prioritas</div>
+                <div class="list-text-sub">Respons <24 jam hari kerja via WhatsApp</div>
+              </div>
+            </div>
+            <div class="list-right"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER AREA -->
+      <div class="app-info">
+        <div class="app-version">Bisakasir v1.121.0</div>
+        <a href="#" class="app-link">Tentang Aplikasi</a>
+      </div>
+
+      <button class="btn-logout" onclick="alert('Keluar dari aplikasi')">
+        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+      </button>
+
+      <div class="sync-banner">
+        <i class="fa-solid fa-spinner fa-spin"></i> Menyinkronkan 0 data...
+      </div>
+
     </div>
   </div>
 
@@ -347,13 +757,13 @@
       <i class="fa-solid fa-box"></i>
       <span>Produk</span>
     </div>
-    <div class="nav-item" id="nav-laporan" onclick="switchView('laporan')">
+    <div class="nav-item" id="nav-lainnya" onclick="switchView('lainnya')">
       <i class="fa-solid fa-ellipsis"></i>
       <span>Lainnya</span>
     </div>
   </nav>
 
-  <!-- JAVASCRIPT LOGIC NAVIGASI & KASIR -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     let cart = [];
     let totalOmset = 0;
@@ -411,11 +821,8 @@
       totalOmset += total;
       totalTrx += 1;
 
-      // Update Dashboard & Laporan
       document.getElementById('dash-omset').innerText = 'Rp ' + totalOmset.toLocaleString('id-ID');
       document.getElementById('dash-trx').innerText = totalTrx;
-      document.getElementById('report-total').innerText = 'Rp ' + totalOmset.toLocaleString('id-ID');
-      document.getElementById('report-count').innerText = totalTrx;
 
       window.print();
       clearCart();
